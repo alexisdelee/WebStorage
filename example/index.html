@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>WebStorage</title>
+  </head>
+  <body>
+    <script type="text/javascript" src="../Storage.js"></script>
+    <script type="text/javascript">
+      let storage = new Storage(false, 315360000000); // 10 ans si utilisation des cookies
+      storage.set("id", "3d48292e4d2714f11c2adf276b610971e068a519");
+      document.write(storage.get("id"));
+      // storage.remove("id");
+      storage.removeAll();
+    </script>
+  </body>
+</html>
