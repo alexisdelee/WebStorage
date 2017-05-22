@@ -9,8 +9,20 @@ Utilisation du localStorage (10 ans de persistance dans le cas d'utilisation des
 ```javascript
 const _storage = new Storage(true, 315360000000);
 
-_storage.set("id", "3d48292e4d2714f11c2adf276b610971e068a519");
-document.write(_storage.get("id"));
+_storage.set({
+  value: storage.String,
+  key: "id",
+  value: "3d48292e4d2714f11c2adf276b610971e068a519"
+}).then(() => {
+
+  _storage.get({
+    type: storage.String,
+    key: "id"
+  }).then((value) => {
+    document.write(value);
+  });
+  
+});
 ```
 
 L'objet storage peut avoir jusqu'à deux arguments lors de son instanciation (facultatif). La persistance et le nombre de millisecondes avant la destruction du cookie dans le cas de l'utilisation des cookies.
@@ -32,3 +44,18 @@ Supprime la valeur à partir de l'ID ```(new Storage()).remove(id)```
 ### removeAll
 
 Supprime toutes les valeurs stockées ```(new Storage()).removeAll()```
+
+## Technologies utilisées  
+
+- localStorage
+- sessionStorage
+- cookie
+
+## Types reconnus  
+
+- Array 
+- ArrayBuffer 
+- Blob 
+- Number 
+- Object 
+- String 
