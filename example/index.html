@@ -8,10 +8,27 @@
     <script type="text/javascript" src="../Storage.js"></script>
     <script type="text/javascript">
       let storage = new Storage(true, 315360000000); // 10 ans avant destruction si utilisation des cookies
-      storage.set("id", "3d48292e4d2714f11c2adf276b610971e068a519");
-      document.write(storage.get("id"));
-      // storage.remove("id");
-      storage.removeAll();
+      
+      let image = new Image();
+      image.src = "songbird.png";
+
+      storage.set({
+        type: storage.Blob, 
+        key: "id", 
+        value: image
+      }).then(() => {
+        console.log("Les données ont bien été reçues et traitées.");
+
+        storage.get({
+          type: storage.Blob,
+          key: "id"
+        }).then((value) => {
+          document.body.appendChild(value);
+
+          // storage.remove("id");
+          storage.removeAll();
+        });
+      });
     </script>
   </body>
 </html>
