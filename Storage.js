@@ -68,18 +68,9 @@ class Storage extends Data {
     this.Array = 0x01;
     this.ArrayBuffer = 0x02;
     this.Blob = 0x04;
-    this.Float32Array = 0x08;
-    this.Float64Array = 0x10;
-    this.Int8Array = 0x20;
-    this.Int16Array = 0x40;
-    this.Int32Array = 0x80;
-    this.Number = 0x100;
-    this.Object = 0x200;
-    this.Uint8Array = 0x400;
-    this.Uint8ClampedArray = 0x800;
-    this.Uint16Array = 0x1000;
-    this.Uint32Array = 0x2000;
-    this.String = 0x4000;
+    this.Number = 0x08;
+    this.Object = 0x10;
+    this.String = 0x20;
 
     this.persistence = persistence;
     this.time = time;
