@@ -127,14 +127,25 @@ var Data = function () {
 var Storage = function (_Data) {
   _inherits(Storage, _Data);
 
-  function Storage() {
+  function Storage() /* 157680000000 */{
     var persistence = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
-    var time = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 157680000000;
+    var time = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
     _classCallCheck(this, Storage);
 
     var _this2 = _possibleConstructorReturn(this, (Storage.__proto__ || Object.getPrototypeOf(Storage)).call(this)); // par défaut 5 ans
 
+
+    time = Object.assign({
+      millisecond: 0,
+      second: 0,
+      minute: 0,
+      hour: 0,
+      day: 0,
+      year: 0
+    }, time);
+
+    time = time.millisecond + time.second * 1000 + time.minute * 1000 * 60 + time.hour * 1000 * 3600 + time.day * 1000 * 3600 * 24 + time.year * 1000 * 3600 * 24 * 365;
 
     _this2.Array = 0x01;
     _this2.ArrayBuffer = 0x02;

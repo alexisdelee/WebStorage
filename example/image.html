@@ -9,7 +9,7 @@
     <script type="text/javascript">
       /* Example with an image */
 
-      let storage = new Storage(true, 315360000000); // 10 ans avant destruction si utilisation des cookies
+      let storage = new Storage(true, {year: 10}); // 10 ans avant destruction si utilisation des cookies
       
       let image = new Image();
       image.src = "songbird.png";

@@ -80,8 +80,19 @@ class Data {
 }
 
 class Storage extends Data {
-  constructor(persistence = true, time = 157680000000) { // par défaut 5 ans
+  constructor(persistence = true, time = {} /* 157680000000 */) { // par défaut 5 ans
     super();
+
+    time = Object.assign({
+      millisecond: 0,
+      second: 0,
+      minute: 0,
+      hour: 0,
+      day: 0,
+      year: 0
+    }, time);
+
+    time = time.millisecond + time.second * 1000 + time.minute * 1000 * 60 + time.hour * 1000 * 3600 + time.day * 1000 * 3600 * 24 + time.year * 1000 * 3600 * 24 * 365;
 
     this.Array = 0x01;
     this.ArrayBuffer = 0x02;

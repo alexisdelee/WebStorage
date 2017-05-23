@@ -7,7 +7,7 @@ La classe Storage facilite l'utilisation de stockage de données locales (localS
 Utilisation du localStorage (10 ans de persistance dans le cas d'utilisation des cookies) avec affectation et récupération des données.
 
 ```javascript
-const _storage = new Storage(true, 315360000000);
+const _storage = new Storage(true, {year: 10});
 
 _storage.set({
   type: storage.String,
@@ -25,7 +25,18 @@ _storage.set({
 });
 ```
 
-L'objet storage peut avoir jusqu'à deux arguments lors de son instanciation (facultatif). La persistance et le nombre de millisecondes avant la destruction du cookie dans le cas de l'utilisation des cookies.
+L'objet storage peut avoir jusqu'à deux arguments lors de son instanciation (facultatif). La persistance et un objet contenant les durées avant la destruction du cookie dans le cas de l'utilisation des cookies.
+
+```javascript
+new Storage(true, {
+  millisecond: 0,
+  second: 0,
+  minute: 0,
+  hour: 0,
+  day: 0,
+  year: 0
+})
+```
 
 ## API
 
@@ -47,9 +58,9 @@ Supprime toutes les valeurs stockées ```(new Storage()).removeAll()```
 
 ## Technologies utilisées  
 
-- localStorage
-- sessionStorage
-- cookie
+- localStorage 
+- sessionStorage 
+- cookie 
 
 ## Types reconnus  
 
