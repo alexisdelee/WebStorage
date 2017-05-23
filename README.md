@@ -10,7 +10,7 @@ Utilisation du localStorage (10 ans de persistance dans le cas d'utilisation des
 const _storage = new Storage(true, 315360000000);
 
 _storage.set({
-  value: storage.String,
+  type: storage.String,
   key: "id",
   value: "3d48292e4d2714f11c2adf276b610971e068a519"
 }).then(() => {
