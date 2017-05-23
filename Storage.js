@@ -21,7 +21,9 @@ var Data = function () {
     key: "_toString",
     value: function _toString(type, value) {
       if (type & this.Array) {
-        return value.toString();
+        return value.join("|");
+      } else if (type & this.Boolean || type & this.Null || type & this.Undefined || type & this.Infinity) {
+        return String(value);
       } else if (type & this.ArrayBuffer) {
         return String.fromCharCode.apply(null, new Uint16Array(value));
       } else if (type & this.Blob) {
@@ -37,6 +39,8 @@ var Data = function () {
         return JSON.stringify(value);
       } else if (type & this.String) {
         return value;
+      } else if (type & this.Set) {
+        return this._toString(this.Array, Array.from(value));
       } else {
         console.error("[ERROR] unknown type");
         return undefined;
@@ -49,7 +53,7 @@ var Data = function () {
 
       return new Promise(function (resolve, reject) {
         if (type & _this.Array) {
-          resolve(JSON.parse("[" + value + "]"));
+          resolve(value.split("|"));
         } else if (type & _this.ArrayBuffer) {
           var _buffer = new ArrayBuffer(value.length * 2);
           var bufferView = new Uint16Array(_buffer);
@@ -88,15 +92,27 @@ var Data = function () {
             resolve(image);
           });
         } else if (type & _this.Number) {
-          if (value % 1 === 0) {
-            resolve(parseInt(value, 10));
-          } else {
-            resolve(parseFloat(value));
-          }
+          if (value % 1 === 0) resolve(parseInt(value, 10));else resolve(parseFloat(value));
         } else if (type & _this.Object) {
           resolve(JSON.parse(value));
         } else if (type & _this.String) {
           resolve(value);
+        } else if (type & _this.Boolean || type & _this.Null || type & _this.Undefined || type & _this.Infinity) {
+          if (value === "undefined") {
+            resolve(undefined);
+          } else if (value === "null") {
+            resolve(null);
+          } else if (value === "true") {
+            resolve(true);
+          } else if (value === "false") {
+            resolve(false);
+          } else {
+            var _value = Number(value);
+
+            if (!isNaN(_value)) resolve(_value);else resolve(value);
+          }
+        } else if (type & _this.Set) {
+          resolve(new Set(value.split("|")));
         } else {
           console.error("[ERROR] unknown type");
           return undefined;
@@ -126,6 +142,11 @@ var Storage = function (_Data) {
     _this2.Number = 0x08;
     _this2.Object = 0x10;
     _this2.String = 0x20;
+    _this2.Boolean = 0x40;
+    _this2.Null = 0x80;
+    _this2.Undefined = 0x100;
+    _this2.Infinity = 0x200;
+    _this2.Set = 0x400;
 
     _this2.persistence = persistence;
     _this2.time = time;

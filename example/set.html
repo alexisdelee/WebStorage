@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>WebStorage</title>
+  </head>
+  <body>
+    <script type="text/javascript" src="../Storage.js"></script>
+    <script type="text/javascript">
+      /* Example with a Set */
+      
+      let storage = new Storage(true, 315360000000); // 10 ans avant destruction si utilisation des cookies
+
+      storage.set({
+        type: storage.Set, 
+        key: "id", 
+        value: new Set(["test", 3])
+      }).then(() => {
+        console.log("Les données ont bien été reçues et traitées.");
+
+        storage.get({
+          type: storage.Set,
+          key: "id"
+        }).then((value) => {
+          console.log(value);
+
+          // storage.remove("id");
+          storage.removeAll();
+        });
+      });
+    </script>
+  </body>
+</html>

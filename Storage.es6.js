@@ -1,7 +1,9 @@
 class Data {
   _toString(type, value) {
     if(type & this.Array) {
-      return value.toString();
+      return value.join("|");
+    } else if (type & this.Boolean || type & this.Null || type & this.Undefined || type & this.Infinity) {
+      return String(value);
     } else if(type & this.ArrayBuffer) {
       return String.fromCharCode.apply(null, new Uint16Array(value));
     } else if(type & this.Blob) {
@@ -17,6 +19,8 @@ class Data {
       return JSON.stringify(value);
     } else if(type & this.String) {
       return value;
+    } else if(type & this.Set) {
+      return this._toString(this.Array, Array.from(value));
     } else {
       console.error("[ERROR] unknown type");
       return undefined;
@@ -26,7 +30,7 @@ class Data {
   _toData(type, value) {
     return new Promise((resolve, reject) => {
       if(type & this.Array) {
-        resolve(JSON.parse("[" + value + "]"));
+        resolve(value.split("|"));
       } else if(type & this.ArrayBuffer) {
         let _buffer = new ArrayBuffer(value.length * 2);
         let bufferView = new Uint16Array(_buffer);
@@ -44,15 +48,29 @@ class Data {
           resolve(image);
         });
       } else if(type & this.Number) {
-        if(value % 1 === 0) {
-          resolve(parseInt(value, 10));
-        } else {
-          resolve(parseFloat(value));
-        }
+        if(value % 1 === 0) resolve(parseInt(value, 10));
+        else resolve(parseFloat(value));
       } else if(type & this.Object) {
         resolve(JSON.parse(value));
       } else if(type & this.String) {
         resolve(value);
+      } else if(type & this.Boolean || type & this.Null || type & this.Undefined || type & this.Infinity) {
+        if(value === "undefined") {
+          resolve(undefined);
+        } else if(value === "null") {
+          resolve(null);
+        } else if(value === "true") {
+          resolve(true);
+        } else if(value === "false") {
+          resolve(false);
+        } else {
+          let _value = Number(value);
+
+          if(!isNaN(_value)) resolve(_value);
+          else resolve(value);
+        }
+      } else if(type & this.Set) {
+        resolve(new Set(value.split("|")));
       } else {
         console.error("[ERROR] unknown type");
         return undefined;
@@ -71,6 +89,11 @@ class Storage extends Data {
     this.Number = 0x08;
     this.Object = 0x10;
     this.String = 0x20;
+    this.Boolean = 0x40;
+    this.Null = 0x80;
+    this.Undefined = 0x100;
+    this.Infinity = 0x200;
+    this.Set = 0x400;
 
     this.persistence = persistence;
     this.time = time;

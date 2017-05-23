@@ -59,3 +59,8 @@ Supprime toutes les valeurs stockées ```(new Storage()).removeAll()```
 - Number 
 - Object 
 - String 
+- Boolean 
+- Null 
+- Undefined 
+- Infinity 
+- Set 
