@@ -35,7 +35,7 @@ new Storage(true, {
   hour: 0,
   day: 0,
   year: 0
-})
+});
 ```
 
 ## API
@@ -75,3 +75,4 @@ Supprime toutes les valeurs stockées ```(new Storage()).removeAll()```
 - Undefined 
 - Infinity 
 - Set 
+- RegExp 

@@ -21,6 +21,8 @@ class Data {
       return value;
     } else if(type & this.Set) {
       return this._toString(this.Array, Array.from(value));
+    } else if(type & this.RegExp) {
+      return value.toString();
     } else {
       console.error("[ERROR] unknown type");
       return undefined;
@@ -71,6 +73,9 @@ class Data {
         }
       } else if(type & this.Set) {
         resolve(new Set(value.split("|")));
+      } else if(type & this.RegExp) {
+        let _argv = value.match("/(.*)/([gimuy]*)");
+        resolve(new RegExp(_argv[1], _argv[2]));
       } else {
         console.error("[ERROR] unknown type");
         return undefined;
@@ -105,6 +110,7 @@ class Storage extends Data {
     this.Undefined = 0x100;
     this.Infinity = 0x200;
     this.Set = 0x400;
+    this.RegExp = 0x800;
 
     this.persistence = persistence;
     this.time = time;

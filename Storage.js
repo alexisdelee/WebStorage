@@ -41,6 +41,8 @@ var Data = function () {
         return value;
       } else if (type & this.Set) {
         return this._toString(this.Array, Array.from(value));
+      } else if (type & this.RegExp) {
+        return value.toString();
       } else {
         console.error("[ERROR] unknown type");
         return undefined;
@@ -113,6 +115,9 @@ var Data = function () {
           }
         } else if (type & _this.Set) {
           resolve(new Set(value.split("|")));
+        } else if (type & _this.RegExp) {
+          var _argv = value.match("/(.*)/([gimuy]*)");
+          resolve(new RegExp(_argv[1], _argv[2]));
         } else {
           console.error("[ERROR] unknown type");
           return undefined;
@@ -158,6 +163,7 @@ var Storage = function (_Data) {
     _this2.Undefined = 0x100;
     _this2.Infinity = 0x200;
     _this2.Set = 0x400;
+    _this2.RegExp = 0x800;
 
     _this2.persistence = persistence;
     _this2.time = time;
